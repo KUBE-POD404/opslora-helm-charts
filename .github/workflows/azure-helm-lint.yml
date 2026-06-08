@@ -1,0 +1,46 @@
+name: Azure Helm Lint
+
+on:
+  pull_request:
+    paths:
+      - "opslora-helm/**"
+      - ".github/workflows/azure-helm-lint.yml"
+  workflow_dispatch:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Helm
+        uses: azure/setup-helm@v4
+
+      - name: Lint Azure app charts
+        shell: bash
+        run: |
+          set -euo pipefail
+          for chart in auth customer frontend invoice order payment; do
+            helm lint "opslora-helm/apps/${chart}" \
+              -f "opslora-helm/apps/${chart}/values.yaml" \
+              -f "opslora-helm/apps/${chart}/values-azure-test.yaml"
+            helm lint "opslora-helm/apps/${chart}" \
+              -f "opslora-helm/apps/${chart}/values.yaml" \
+              -f "opslora-helm/apps/${chart}/values-azure-prod.yaml"
+          done
+
+      - name: Render Azure app charts
+        shell: bash
+        run: |
+          set -euo pipefail
+          for env in test prod; do
+            for chart in auth customer frontend invoice order payment; do
+              helm template "${chart}" "opslora-helm/apps/${chart}" \
+                -f "opslora-helm/apps/${chart}/values.yaml" \
+                -f "opslora-helm/apps/${chart}/values-azure-${env}.yaml" \
+                >/tmp/${chart}-azure-${env}.yaml
+              grep -q "kind: Ingress" /tmp/${chart}-azure-${env}.yaml
+              ! grep -q "kind: HTTPRoute" /tmp/${chart}-azure-${env}.yaml
+            done
+          done

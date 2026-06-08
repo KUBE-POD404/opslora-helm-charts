@@ -1,0 +1,18 @@
+gateway:
+  enabled: false
+
+ingress:
+  enabled: true
+  name: invoice-ingress
+  className: azure/application-gateway
+  annotations:
+    appgw.ingress.kubernetes.io/backend-path-prefix: /
+  hosts:
+    - host: app.opslora.com
+      paths:
+        - path: /api/v1/invoices
+          pathType: Prefix
+  backend:
+    name: invoice-service
+    port: 3000
+

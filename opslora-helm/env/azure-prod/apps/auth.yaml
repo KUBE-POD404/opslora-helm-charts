@@ -1,0 +1,27 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: auth-service-azure-prod
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/KUBE-POD404/opslora-helm-charts.git
+    targetRevision: azure/agic-application-gateway
+    path: opslora-helm/apps/auth
+    helm:
+      releaseName: auth-service-azure-prod
+      valueFiles:
+        - values.yaml
+        - values-prod.yaml
+        - values-azure-prod.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: opslora-app-ns
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+

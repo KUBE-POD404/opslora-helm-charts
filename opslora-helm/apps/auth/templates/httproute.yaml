@@ -1,3 +1,4 @@
+{{- if (default true .Values.gateway.enabled) }}
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
@@ -26,3 +27,4 @@ spec:
       backendRefs:
         - name: {{ default .Values.fullname .Values.route.backend.name }}
           port: {{ default .Values.service.port .Values.route.backend.port }}
+{{- end }}
