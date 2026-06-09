@@ -4,9 +4,8 @@ gateway:
 ingress:
   enabled: true
   name: frontend-ingress
-  className: azure/application-gateway
-  annotations:
-    appgw.ingress.kubernetes.io/backend-path-prefix: /
+  className: azure-application-gateway
+  annotations: {}
   hosts:
     - host: app.opslora.com
       paths:

@@ -1,12 +1,17 @@
+sealedSecret:
+  enabled: false
+
+rollout:
+  enabled: false
+
 gateway:
   enabled: false
 
 ingress:
   enabled: true
   name: payment-ingress
-  className: azure/application-gateway
-  annotations:
-    appgw.ingress.kubernetes.io/backend-path-prefix: /
+  className: azure-application-gateway
+  annotations: {}
   hosts:
     - host: app.opslora.com
       paths:

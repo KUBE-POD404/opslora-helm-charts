@@ -1,12 +1,38 @@
+azureKeyVault:
+  enabled: true
+  keyVaultName: "kv-opslora-test-cin-001"
+  tenantId: "7f02300f-0f1b-4237-b981-c376377f394e"
+  identityClientId: "55421331-3108-4210-abfb-6a75190cc851"
+  secretProviderClassName: "spc-opslora-test-order"
+  secrets:
+    - objectName: "opslora-test-order-database-url"
+      envName: "DATABASE_URL"
+    - objectName: "opslora-test-order-jwt-secret-key"
+      envName: "JWT_SECRET_KEY"
+    - objectName: "opslora-test-order-environment"
+      envName: "ENVIRONMENT"
+    - objectName: "opslora-test-order-access-token-expire-minutes"
+      envName: "ACCESS_TOKEN_EXPIRE_MINUTES"
+    - objectName: "opslora-test-order-api-url"
+      envName: "API_URL"
+    - objectName: "opslora-test-order-rabbitmq-url"
+      envName: "RABBITMQ_URL"
+
+sealedSecret:
+  enabled: false
+
+config:
+  CUSTOMER_SERVICE_URL: "http://customer-service:3000"
+  INVENTORY_SERVICE_URL: "http://inventory-service:3000"
+
 gateway:
   enabled: false
 
 ingress:
   enabled: true
   name: order-ingress
-  className: azure/application-gateway
-  annotations:
-    appgw.ingress.kubernetes.io/backend-path-prefix: /
+  className: azure-application-gateway
+  annotations: {}
   hosts:
     - host: app-test.opslora.com
       paths:

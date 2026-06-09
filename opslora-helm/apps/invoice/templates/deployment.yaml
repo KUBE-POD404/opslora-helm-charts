@@ -40,6 +40,16 @@ spec:
                     {{- include "invoice.selectorLabels" . | nindent 20 }}
                 topologyKey: {{ .Values.affinity.podAntiAffinity.topologyKey }}
       {{- end }}
+      {{- if .Values.azureKeyVault.enabled }}
+      volumes:
+        - name: secrets-store-inline
+          csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: {{ .Values.azureKeyVault.secretProviderClassName | default (printf "%s-akv" .Values.secretName) }}
+      {{- end }}
+
 
       containers:
         - name: invoice-container
@@ -54,6 +64,13 @@ spec:
                 name: {{ .Values.secretName }}
             - configMapRef:
                 name: {{ .Values.name }}-config
+          {{- if .Values.azureKeyVault.enabled }}
+          volumeMounts:
+            - name: secrets-store-inline
+              mountPath: /mnt/secrets-store
+              readOnly: true
+          {{- end }}
+
 
           resources:
             {{- toYaml .Values.resources | nindent 12 }}

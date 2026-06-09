@@ -1,4 +1,10 @@
-{{- if (default true .Values.gateway.enabled) }}
+{{- $gatewayEnabled := true }}
+{{- if hasKey .Values "gateway" }}
+{{- if hasKey .Values.gateway "enabled" }}
+{{- $gatewayEnabled = .Values.gateway.enabled }}
+{{- end }}
+{{- end }}
+{{- if $gatewayEnabled }}
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:

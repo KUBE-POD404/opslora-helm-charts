@@ -1,3 +1,13 @@
+azureKeyVault:
+  enabled: false
+  keyVaultName: ""
+  tenantId: ""
+  identityClientId: ""
+  secretProviderClassName: ""
+  secrets: []
+sealedSecret:
+  enabled: true
+
 name: customer
 fullName: customer-service
 

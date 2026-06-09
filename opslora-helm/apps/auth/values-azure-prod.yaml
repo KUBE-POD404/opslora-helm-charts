@@ -1,16 +1,20 @@
+sealedSecret:
+  enabled: false
+
 gateway:
   enabled: false
 
 ingress:
   enabled: true
   name: auth-ingress
-  className: azure/application-gateway
-  annotations:
-    appgw.ingress.kubernetes.io/backend-path-prefix: /
+  className: azure-application-gateway
+  annotations: {}
   hosts:
     - host: app.opslora.com
       paths:
         - path: /api/v1/auth
+          pathType: Prefix
+        - path: /api/v1/settings
           pathType: Prefix
   backend:
     name: auth-service

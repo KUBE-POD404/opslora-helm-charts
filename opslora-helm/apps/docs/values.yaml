@@ -1,0 +1,57 @@
+namespace: opslora-app-ns
+
+fullname: docs-site-test
+
+labels:
+  app: docs
+
+selectorLabels:
+  app: docs
+
+replicaCount: 1
+
+image:
+  repository: ghcr.io/kube-pod404/opslora-app-docs
+  tag: "latest"
+  pullPolicy: IfNotPresent
+
+containerPort: 80
+
+serviceAccount:
+  create: true
+  name: docs-sa
+
+service:
+  name: docs-service
+  port: 80
+
+ingress:
+  enabled: true
+  name: docs-ingress
+  className: azure-application-gateway
+  annotations: {}
+  hosts:
+    - host: docs-test.opslora.com
+      paths:
+        - path: /
+          pathType: Prefix
+  backend:
+    name: docs-service
+    port: 80
+
+strategy:
+  type: RollingUpdate
+  rollingUpdate:
+    maxUnavailable: 1
+    maxSurge: 1
+
+pod:
+  automountServiceAccountToken: false
+
+resources:
+  requests:
+    cpu: 25m
+    memory: 64Mi
+  limits:
+    cpu: 100m
+    memory: 128Mi

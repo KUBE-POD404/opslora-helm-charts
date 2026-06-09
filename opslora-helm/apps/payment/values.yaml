@@ -1,5 +1,18 @@
+azureKeyVault:
+  enabled: false
+  keyVaultName: ""
+  tenantId: ""
+  identityClientId: ""
+  secretProviderClassName: ""
+  secrets: []
+sealedSecret:
+  enabled: true
+
 name: payment
 fullName: payment-service
+
+rollout:
+  enabled: true
 
 replicaCount: 2
 

@@ -1,0 +1,20 @@
+fullname: docs-site-test
+
+image:
+  repository: ghcr.io/kube-pod404/opslora-app-docs
+  tag: "latest"
+  pullPolicy: Always
+
+ingress:
+  enabled: true
+  name: docs-ingress
+  className: azure-application-gateway
+  annotations: {}
+  hosts:
+    - host: docs-test.opslora.com
+      paths:
+        - path: /
+          pathType: Prefix
+  backend:
+    name: docs-service
+    port: 80

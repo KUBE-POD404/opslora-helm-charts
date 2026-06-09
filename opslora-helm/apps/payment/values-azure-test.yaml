@@ -1,12 +1,37 @@
+azureKeyVault:
+  enabled: true
+  keyVaultName: "kv-opslora-test-cin-001"
+  tenantId: "7f02300f-0f1b-4237-b981-c376377f394e"
+  identityClientId: "55421331-3108-4210-abfb-6a75190cc851"
+  secretProviderClassName: "spc-opslora-test-payment"
+  secrets:
+    - objectName: "opslora-test-payment-database-url"
+      envName: "DATABASE_URL"
+    - objectName: "opslora-test-payment-jwt-secret-key"
+      envName: "JWT_SECRET_KEY"
+    - objectName: "opslora-test-payment-environment"
+      envName: "ENVIRONMENT"
+    - objectName: "opslora-test-payment-access-token-expire-minutes"
+      envName: "ACCESS_TOKEN_EXPIRE_MINUTES"
+    - objectName: "opslora-test-payment-api-url"
+      envName: "API_URL"
+    - objectName: "opslora-test-payment-rabbitmq-url"
+      envName: "RABBITMQ_URL"
+
+rollout:
+  enabled: false
+
+sealedSecret:
+  enabled: false
+
 gateway:
   enabled: false
 
 ingress:
   enabled: true
   name: payment-ingress
-  className: azure/application-gateway
-  annotations:
-    appgw.ingress.kubernetes.io/backend-path-prefix: /
+  className: azure-application-gateway
+  annotations: {}
   hosts:
     - host: app-test.opslora.com
       paths:

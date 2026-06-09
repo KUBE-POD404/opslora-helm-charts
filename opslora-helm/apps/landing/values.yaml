@@ -1,0 +1,57 @@
+namespace: opslora-app-ns
+
+fullname: landing-site-test
+
+labels:
+  app: landing
+
+selectorLabels:
+  app: landing
+
+replicaCount: 1
+
+image:
+  repository: ghcr.io/kube-pod404/opslora-landing-site
+  tag: "latest"
+  pullPolicy: IfNotPresent
+
+containerPort: 80
+
+serviceAccount:
+  create: true
+  name: landing-sa
+
+service:
+  name: landing-service
+  port: 80
+
+ingress:
+  enabled: true
+  name: landing-ingress
+  className: azure-application-gateway
+  annotations: {}
+  hosts:
+    - host: test.opslora.com
+      paths:
+        - path: /
+          pathType: Prefix
+  backend:
+    name: landing-service
+    port: 80
+
+strategy:
+  type: RollingUpdate
+  rollingUpdate:
+    maxUnavailable: 1
+    maxSurge: 1
+
+pod:
+  automountServiceAccountToken: false
+
+resources:
+  requests:
+    cpu: 25m
+    memory: 64Mi
+  limits:
+    cpu: 100m
+    memory: 128Mi

@@ -8,7 +8,6 @@ metadata:
   name: {{ default "auth-ingress" .Values.ingress.name }}
   namespace: {{ .Values.namespace }}
   annotations:
-    kubernetes.io/ingress.class: {{ default "azure/application-gateway" .Values.ingress.className | quote }}
     argocd.argoproj.io/sync-wave: "3"
     {{- with .Values.ingress.annotations }}
     {{- toYaml . | nindent 4 }}
@@ -16,6 +15,7 @@ metadata:
   labels:
     {{- toYaml .Values.labels | nindent 4 }}
 spec:
+  ingressClassName: {{ default "azure-application-gateway" .Values.ingress.className | quote }}
   rules:
     {{- range .Values.ingress.hosts }}
     - host: {{ .host | quote }}
