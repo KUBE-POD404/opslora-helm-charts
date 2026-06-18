@@ -1,5 +1,5 @@
 image:
-  tag: "920bd25"
+  tag: "azure-test-2-1172341"
 
 azureKeyVault:
   enabled: true

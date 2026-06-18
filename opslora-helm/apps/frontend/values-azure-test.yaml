@@ -2,7 +2,7 @@ gateway:
   enabled: false
 
 image:
-  tag: "5d1873d"
+  tag: "azure-test-2-e355845"
 
 ingress:
   enabled: true
