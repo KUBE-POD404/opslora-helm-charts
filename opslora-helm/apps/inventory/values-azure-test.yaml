@@ -1,5 +1,5 @@
 image:
-  tag: "f204706"
+  tag: "89eda63"
 
 azureKeyVault:
   enabled: true
