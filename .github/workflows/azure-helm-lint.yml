@@ -21,26 +21,32 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          for chart in auth customer frontend invoice order payment; do
+          helm lint opslora-helm/infra/rabbitmq \
+            -f opslora-helm/infra/rabbitmq/values.yaml \
+            -f opslora-helm/infra/rabbitmq/values-azure-test.yaml
+          for chart in auth customer frontend inventory invoice notification order payment; do
             helm lint "opslora-helm/apps/${chart}" \
               -f "opslora-helm/apps/${chart}/values.yaml" \
               -f "opslora-helm/apps/${chart}/values-azure-test.yaml"
-            helm lint "opslora-helm/apps/${chart}" \
-              -f "opslora-helm/apps/${chart}/values.yaml" \
-              -f "opslora-helm/apps/${chart}/values-azure-prod.yaml"
           done
 
       - name: Render Azure app charts
         shell: bash
         run: |
           set -euo pipefail
-          for env in test prod; do
-            for chart in auth customer frontend invoice order payment; do
-              helm template "${chart}" "opslora-helm/apps/${chart}" \
-                -f "opslora-helm/apps/${chart}/values.yaml" \
-                -f "opslora-helm/apps/${chart}/values-azure-${env}.yaml" \
-                >/tmp/${chart}-azure-${env}.yaml
-              grep -q "kind: Ingress" /tmp/${chart}-azure-${env}.yaml
-              ! grep -q "kind: HTTPRoute" /tmp/${chart}-azure-${env}.yaml
-            done
+          helm template rabbitmq-azure-test opslora-helm/infra/rabbitmq \
+            -f opslora-helm/infra/rabbitmq/values.yaml \
+            -f opslora-helm/infra/rabbitmq/values-azure-test.yaml \
+            >/tmp/rabbitmq-azure-test.yaml
+          for chart in auth customer frontend inventory invoice order payment; do
+            helm template "${chart}" "opslora-helm/apps/${chart}" \
+              -f "opslora-helm/apps/${chart}/values.yaml" \
+              -f "opslora-helm/apps/${chart}/values-azure-test.yaml" \
+              >/tmp/${chart}-azure-test.yaml
+            grep -q "kind: Ingress" /tmp/${chart}-azure-test.yaml
+            ! grep -q "kind: HTTPRoute" /tmp/${chart}-azure-test.yaml
           done
+          helm template notification opslora-helm/apps/notification \
+            -f opslora-helm/apps/notification/values.yaml \
+            -f opslora-helm/apps/notification/values-azure-test.yaml \
+            >/tmp/notification-azure-test.yaml

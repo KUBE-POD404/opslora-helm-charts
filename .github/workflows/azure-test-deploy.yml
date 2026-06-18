@@ -15,7 +15,6 @@ permissions:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    environment: azure-test
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -42,10 +41,23 @@ jobs:
           set -euo pipefail
           namespace="${{ github.event.inputs.namespace }}"
           kubectl create namespace "${namespace}" --dry-run=client -o yaml | kubectl apply -f -
-          for chart in auth customer frontend invoice order payment; do
+
+          helm upgrade --install rabbitmq-azure-test opslora-helm/infra/rabbitmq \
+            --namespace "${namespace}" \
+            -f opslora-helm/infra/rabbitmq/values.yaml \
+            -f opslora-helm/infra/rabbitmq/values-azure-test.yaml \
+            --wait --timeout 10m
+
+          for release in auth customer inventory order invoice payment; do
+            kubectl delete job "${release}-migrate" -n "${namespace}" --ignore-not-found
+            kubectl delete job "${release}-service-migrate" -n "${namespace}" --ignore-not-found
+          done
+
+          for chart in auth customer inventory order invoice payment notification frontend; do
             helm upgrade --install "${chart}" "opslora-helm/apps/${chart}" \
               --namespace "${namespace}" \
               -f "opslora-helm/apps/${chart}/values.yaml" \
-              -f "opslora-helm/apps/${chart}/values-azure-test.yaml"
+              -f "opslora-helm/apps/${chart}/values-azure-test.yaml" \
+              --wait --timeout 10m
           done
 

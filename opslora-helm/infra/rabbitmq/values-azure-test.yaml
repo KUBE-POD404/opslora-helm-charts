@@ -7,7 +7,7 @@ azureKeyVault:
   enabled: true
   keyVaultName: "kv-opslora-test-cin-001"
   tenantId: "7f02300f-0f1b-4237-b981-c376377f394e"
-  identityClientId: "55421331-3108-4210-abfb-6a75190cc851"
+  identityClientId: "771a6c04-9dd8-4fa5-98ee-5444933373bd"
   secretProviderClassName: "spc-opslora-test-rabbitmq"
   secrets:
     - objectName: "opslora-test-rabbitmq-default-user"
