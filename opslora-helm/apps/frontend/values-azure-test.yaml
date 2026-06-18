@@ -1,6 +1,9 @@
 gateway:
   enabled: false
 
+image:
+  tag: "5d1873d"
+
 ingress:
   enabled: true
   name: frontend-ingress

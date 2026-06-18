@@ -1,3 +1,6 @@
+image:
+  tag: "3559058"
+
 azureKeyVault:
   enabled: true
   keyVaultName: "kv-opslora-test-cin-001"
