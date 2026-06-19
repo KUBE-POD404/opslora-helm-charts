@@ -1,9 +1,7 @@
 gateway:
   enabled: false
-
 image:
-  tag: "azure-test-2-e355845"
-
+  tag: "azure-test-5-e84110b"
 ingress:
   enabled: true
   name: frontend-ingress
@@ -17,4 +15,3 @@ ingress:
   backend:
     name: frontend-service
     port: 8000
-
