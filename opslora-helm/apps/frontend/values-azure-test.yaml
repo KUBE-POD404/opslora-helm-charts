@@ -1,7 +1,7 @@
 gateway:
   enabled: false
 image:
-  tag: "azure-test-5-e84110b"
+  tag: "azure-test-6-f92d065"
 ingress:
   enabled: true
   name: frontend-ingress
