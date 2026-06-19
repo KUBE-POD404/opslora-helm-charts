@@ -1,6 +1,5 @@
 image:
-  tag: "565c043"
-
+  tag: "azure-test-5-4c973ad"
 azureKeyVault:
   enabled: true
   keyVaultName: "kv-opslora-test-cin-001"
@@ -20,16 +19,12 @@ azureKeyVault:
       envName: "API_URL"
     - objectName: "opslora-test-payment-rabbitmq-url"
       envName: "RABBITMQ_URL"
-
 rollout:
   enabled: false
-
 sealedSecret:
   enabled: false
-
 gateway:
   enabled: false
-
 ingress:
   enabled: true
   name: payment-ingress
@@ -43,4 +38,3 @@ ingress:
   backend:
     name: payment-service
     port: 3000
-
