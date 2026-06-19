@@ -1,6 +1,5 @@
 image:
-  tag: "azure-test-2-1172341"
-
+  tag: "azure-test-5-81bdf70"
 azureKeyVault:
   enabled: true
   keyVaultName: "kv-opslora-test-cin-001"
@@ -20,17 +19,13 @@ azureKeyVault:
       envName: "API_URL"
     - objectName: "opslora-test-invoice-rabbitmq-url"
       envName: "RABBITMQ_URL"
-
 sealedSecret:
   enabled: false
-
 config:
   ORDER_SERVICE_URL: "http://order-service:3000"
   AUTH_SERVICE_URL: "http://auth-service:3000"
-
 gateway:
   enabled: false
-
 ingress:
   enabled: true
   name: invoice-ingress
@@ -44,4 +39,3 @@ ingress:
   backend:
     name: invoice-service
     port: 3000
-
