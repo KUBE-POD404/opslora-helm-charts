@@ -1,6 +1,5 @@
 image:
-  tag: "3559058"
-
+  tag: "azure-test-3-221aa01"
 azureKeyVault:
   enabled: true
   keyVaultName: "kv-opslora-test-cin-001"
@@ -24,6 +23,5 @@ azureKeyVault:
       envName: "FROM_EMAIL"
     - objectName: "opslora-test-notification-from-name"
       envName: "FROM_NAME"
-
 sealedSecret:
   enabled: false
