@@ -1,6 +1,5 @@
 image:
-  tag: "azure-test-4-49307b5"
-
+  tag: "azure-test-8-dd0ef78"
 azureKeyVault:
   enabled: true
   keyVaultName: "kv-opslora-test-cin-001"
@@ -20,13 +19,10 @@ azureKeyVault:
       envName: "API_URL"
     - objectName: "opslora-test-auth-rabbitmq-url"
       envName: "RABBITMQ_URL"
-
 sealedSecret:
   enabled: false
-
 gateway:
   enabled: false
-
 ingress:
   enabled: true
   name: auth-ingress
@@ -42,4 +38,3 @@ ingress:
   backend:
     name: auth-service
     port: 3000
-
