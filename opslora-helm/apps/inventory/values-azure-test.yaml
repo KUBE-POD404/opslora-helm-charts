@@ -1,6 +1,5 @@
 image:
-  tag: "89eda63"
-
+  tag: "azure-test-7-727e1fd"
 azureKeyVault:
   enabled: true
   keyVaultName: "kv-opslora-test-cin-001"
@@ -20,13 +19,10 @@ azureKeyVault:
       envName: "API_URL"
     - objectName: "opslora-test-inventory-rabbitmq-url"
       envName: "RABBITMQ_URL"
-
 sealedSecret:
   enabled: false
-
 gateway:
   enabled: false
-
 ingress:
   enabled: true
   name: inventory-ingress
@@ -40,4 +36,3 @@ ingress:
   backend:
     name: inventory-service
     port: 3000
-
