@@ -9,12 +9,8 @@ headlamp:
     inCluster: true
     baseURL: "/"
     oidc:
-      secret:
-        create: false
-      externalSecret:
-        enabled: true
-        name: headlamp-oidc
       clientID: "headlamp"
+      clientSecret: "SonC3XVKFR28e2ngvJOPIVE20aK3JB53"
       issuerURL: "https://test-keycloak.opslora.com/realms/opslora-test"
       scopes: "openid,email,profile"
       callbackURL: "https://test-k8s-dashboard.opslora.com/oidc-callback"
@@ -22,27 +18,6 @@ headlamp:
   # Keep RBAC deliberate. Review the upstream chart defaults in your environment.
   serviceAccount:
     create: true
-
-  volumeMounts:
-    - name: headlamp-oidc-secrets-store
-      mountPath: /mnt/secrets-store/headlamp-oidc
-      readOnly: true
-
-  volumes:
-    - name: headlamp-oidc-secrets-store
-      csi:
-        driver: secrets-store.csi.k8s.io
-        readOnly: true
-        volumeAttributes:
-          secretProviderClass: spc-headlamp-oidc
-
-azureKeyVault:
-  enabled: true
-  keyVaultName: "kv-opslora-test-cin-001"
-  tenantId: "7f02300f-0f1b-4237-b981-c376377f394e"
-  identityClientId: "771a6c04-9dd8-4fa5-98ee-5444933373bd"
-  secretProviderClassName: "spc-headlamp-oidc"
-  oidcClientSecretObjectName: "opslora-test-headlamp-oidc-client-secret"
 
 httpRoute:
   enabled: true
