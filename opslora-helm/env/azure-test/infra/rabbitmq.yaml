@@ -9,7 +9,7 @@ spec:
   project: default
   source:
     repoURL: https://github.com/KUBE-POD404/opslora-helm-charts.git
-    targetRevision: azure/agic-application-gateway
+    targetRevision: test/opslora-helm-test
     path: opslora-helm/infra/rabbitmq
     helm:
       releaseName: rabbitmq-azure-test
