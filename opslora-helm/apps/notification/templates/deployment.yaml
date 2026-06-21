@@ -50,6 +50,16 @@ spec:
                   matchLabels:
                     {{- include "notification.selectorLabels" . | nindent 20 }}
                 topologyKey: kubernetes.io/hostname
+      {{- if .Values.azureKeyVault.enabled }}
+      volumes:
+        - name: secrets-store-inline
+          csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: {{ .Values.azureKeyVault.secretProviderClassName | default (printf "%s-akv" .Values.secretName) }}
+      {{- end }}
+
 
       containers:
         - name: notification-container
@@ -62,6 +72,13 @@ spec:
           envFrom:
             - secretRef:
                 name: {{ .Values.secretName }}
+          {{- if .Values.azureKeyVault.enabled }}
+          volumeMounts:
+            - name: secrets-store-inline
+              mountPath: /mnt/secrets-store
+              readOnly: true
+          {{- end }}
+
 
           resources:
             {{- toYaml .Values.resources | nindent 12 }}

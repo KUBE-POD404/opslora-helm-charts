@@ -15,8 +15,16 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
 
-          command: ["python", "-m", "app.init_db"]
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              alembic upgrade head
+              python -m app.init_db
 
           envFrom:
             - secretRef:
                 name: {{ .Values.secretName }}
+            {{- if .Values.config }}
+            - configMapRef:
+                name: {{ .Values.name }}-config
+            {{- end }}

@@ -1,0 +1,27 @@
+image:
+  tag: "azure-test-4-d198e0f"
+azureKeyVault:
+  enabled: true
+  keyVaultName: "kv-opslora-test-cin-001"
+  tenantId: "7f02300f-0f1b-4237-b981-c376377f394e"
+  identityClientId: "771a6c04-9dd8-4fa5-98ee-5444933373bd"
+  secretProviderClassName: "spc-opslora-test-notification"
+  secrets:
+    - objectName: "opslora-test-notification-rabbitmq-url"
+      envName: "RABBITMQ_URL"
+    - objectName: "opslora-test-notification-smtp-host"
+      envName: "SMTP_HOST"
+    - objectName: "opslora-test-notification-smtp-port"
+      envName: "SMTP_PORT"
+    - objectName: "opslora-test-notification-smtp-user"
+      envName: "SMTP_USER"
+    - objectName: "opslora-test-notification-smtp-pass"
+      envName: "SMTP_PASS"
+    - objectName: "opslora-test-notification-smtp-starttls"
+      envName: "SMTP_STARTTLS"
+    - objectName: "opslora-test-notification-from-email"
+      envName: "FROM_EMAIL"
+    - objectName: "opslora-test-notification-from-name"
+      envName: "FROM_NAME"
+sealedSecret:
+  enabled: false

@@ -1,0 +1,34 @@
+{{- if .Values.networkPolicy.enabled }}
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: {{ .Values.fullName }}-network-policy
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+  labels:
+{{- include "order.labels" . | nindent 4 }}
+spec:
+  podSelector:
+    matchLabels:
+{{- include "order.selectorLabels" . | nindent 6 }}
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    {{- if .Values.networkPolicy.allowAllIngress }}
+    - {}
+    {{- else }}
+    - from:
+        - namespaceSelector: {}
+      ports:
+        - protocol: TCP
+          port: {{ .Values.containerPort }}
+    {{- end }}
+  egress:
+    {{- if .Values.networkPolicy.allowAllEgress }}
+    - {}
+    {{- else }}
+    - to:
+        - namespaceSelector: {}
+    {{- end }}
+{{- end }}

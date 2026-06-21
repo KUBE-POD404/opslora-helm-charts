@@ -1,0 +1,17 @@
+gateway:
+  enabled: false
+
+ingress:
+  enabled: true
+  name: frontend-ingress
+  className: azure-application-gateway
+  annotations: {}
+  hosts:
+    - host: app.opslora.com
+      paths:
+        - path: /
+          pathType: Prefix
+  backend:
+    name: frontend-service
+    port: 8000
+

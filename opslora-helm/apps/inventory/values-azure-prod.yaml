@@ -1,0 +1,20 @@
+sealedSecret:
+  enabled: false
+
+gateway:
+  enabled: false
+
+ingress:
+  enabled: true
+  name: inventory-ingress
+  className: azure-application-gateway
+  annotations: {}
+  hosts:
+    - host: app.opslora.com
+      paths:
+        - path: /api/v1/inventory
+          pathType: Prefix
+  backend:
+    name: inventory-service
+    port: 3000
+

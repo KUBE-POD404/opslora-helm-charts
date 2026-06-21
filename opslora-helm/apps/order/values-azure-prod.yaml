@@ -1,0 +1,20 @@
+sealedSecret:
+  enabled: false
+
+gateway:
+  enabled: false
+
+ingress:
+  enabled: true
+  name: order-ingress
+  className: azure-application-gateway
+  annotations: {}
+  hosts:
+    - host: app.opslora.com
+      paths:
+        - path: /api/v1/orders
+          pathType: Prefix
+  backend:
+    name: order-service
+    port: 3000
+

@@ -1,0 +1,20 @@
+fullname: landing-site-test
+
+image:
+  repository: ghcr.io/kube-pod404/opslora-landing-site
+  tag: "latest"
+  pullPolicy: Always
+
+ingress:
+  enabled: true
+  name: landing-ingress
+  className: azure-application-gateway
+  annotations: {}
+  hosts:
+    - host: test.opslora.com
+      paths:
+        - path: /
+          pathType: Prefix
+  backend:
+    name: landing-service
+    port: 80

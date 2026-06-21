@@ -1,0 +1,38 @@
+image:
+  tag: "azure-test-6-6291406"
+azureKeyVault:
+  enabled: true
+  keyVaultName: "kv-opslora-test-cin-001"
+  tenantId: "7f02300f-0f1b-4237-b981-c376377f394e"
+  identityClientId: "771a6c04-9dd8-4fa5-98ee-5444933373bd"
+  secretProviderClassName: "spc-opslora-test-customer"
+  secrets:
+    - objectName: "opslora-test-customer-database-url"
+      envName: "DATABASE_URL"
+    - objectName: "opslora-test-customer-jwt-secret-key"
+      envName: "JWT_SECRET_KEY"
+    - objectName: "opslora-test-customer-environment"
+      envName: "ENVIRONMENT"
+    - objectName: "opslora-test-customer-access-token-expire-minutes"
+      envName: "ACCESS_TOKEN_EXPIRE_MINUTES"
+    - objectName: "opslora-test-customer-api-url"
+      envName: "API_URL"
+    - objectName: "opslora-test-customer-rabbitmq-url"
+      envName: "RABBITMQ_URL"
+sealedSecret:
+  enabled: false
+gateway:
+  enabled: false
+ingress:
+  enabled: true
+  name: customer-ingress
+  className: azure-application-gateway
+  annotations: {}
+  hosts:
+    - host: app-test.opslora.com
+      paths:
+        - path: /api/v1/customers
+          pathType: Prefix
+  backend:
+    name: customer-service
+    port: 3000
