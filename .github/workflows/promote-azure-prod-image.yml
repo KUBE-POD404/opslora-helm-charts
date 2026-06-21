@@ -115,7 +115,9 @@ jobs:
       - name: Create promotion PR
         uses: peter-evans/create-pull-request@v6
         with:
-          token: ${{ github.token }}
+          # Organization settings keep GITHUB_TOKEN read-only and do not allow Actions-created PRs.
+          # Use the same scoped PAT/token already used by service pipelines to update this Helm repo.
+          token: ${{ secrets.HELM_REPO_TOKEN }}
           branch: prod/promote-${{ inputs.service }}-${{ inputs.image_tag }}
           base: ${{ inputs.base_branch }}
           title: "promote(${{ inputs.service }}): ${{ inputs.image_tag }} to Azure prod"
