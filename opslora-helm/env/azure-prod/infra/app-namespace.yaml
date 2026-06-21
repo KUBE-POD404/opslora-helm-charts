@@ -9,7 +9,7 @@ spec:
   project: default
   source:
     repoURL: https://github.com/KUBE-POD404/opslora-helm-charts.git
-    targetRevision: azure/agic-application-gateway
+    targetRevision: main
     path: opslora-helm/infra/app-namespace
     helm:
       releaseName: app-namespace-azure-prod
