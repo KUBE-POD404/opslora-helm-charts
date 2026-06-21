@@ -1,0 +1,17 @@
+gateway:
+  enabled: false
+image:
+  tag: "azure-test-6-f92d065"
+ingress:
+  enabled: true
+  name: frontend-ingress
+  className: azure-application-gateway
+  annotations: {}
+  hosts:
+    - host: app-test.opslora.com
+      paths:
+        - path: /
+          pathType: Prefix
+  backend:
+    name: frontend-service
+    port: 8000

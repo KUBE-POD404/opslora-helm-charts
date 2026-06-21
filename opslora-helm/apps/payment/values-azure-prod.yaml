@@ -1,0 +1,23 @@
+sealedSecret:
+  enabled: false
+
+rollout:
+  enabled: false
+
+gateway:
+  enabled: false
+
+ingress:
+  enabled: true
+  name: payment-ingress
+  className: azure-application-gateway
+  annotations: {}
+  hosts:
+    - host: app.opslora.com
+      paths:
+        - path: /api/v1/payments
+          pathType: Prefix
+  backend:
+    name: payment-service
+    port: 3000
+

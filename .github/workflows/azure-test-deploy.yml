@@ -1,0 +1,63 @@
+name: Azure Test Helm Deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      namespace:
+        description: "Kubernetes namespace"
+        required: true
+        default: "opslora-app-ns"
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Azure login
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_TEST_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_TEST_SUBSCRIPTION_ID }}
+
+      - name: Set AKS context
+        uses: azure/aks-set-context@v4
+        with:
+          resource-group: rg-opslora-test-aks-cin
+          cluster-name: aks-opslora-test-cin-001
+
+      - name: Set up Helm
+        uses: azure/setup-helm@v4
+
+      - name: Deploy Azure test app charts
+        shell: bash
+        run: |
+          set -euo pipefail
+          namespace="${{ github.event.inputs.namespace }}"
+          kubectl create namespace "${namespace}" --dry-run=client -o yaml | kubectl apply -f -
+
+          helm upgrade --install rabbitmq-azure-test opslora-helm/infra/rabbitmq \
+            --namespace "${namespace}" \
+            -f opslora-helm/infra/rabbitmq/values.yaml \
+            -f opslora-helm/infra/rabbitmq/values-azure-test.yaml \
+            --wait --timeout 10m
+
+          for release in auth customer inventory order invoice payment; do
+            kubectl delete job "${release}-migrate" -n "${namespace}" --ignore-not-found
+            kubectl delete job "${release}-service-migrate" -n "${namespace}" --ignore-not-found
+          done
+
+          for chart in auth customer inventory order invoice payment notification frontend; do
+            helm upgrade --install "${chart}" "opslora-helm/apps/${chart}" \
+              --namespace "${namespace}" \
+              -f "opslora-helm/apps/${chart}/values.yaml" \
+              -f "opslora-helm/apps/${chart}/values-azure-test.yaml" \
+              --wait --timeout 10m
+          done
+
