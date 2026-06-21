@@ -1,9 +1,7 @@
 sealedSecret:
   enabled: false
-
 gateway:
   enabled: false
-
 ingress:
   enabled: true
   name: auth-ingress
@@ -19,4 +17,6 @@ ingress:
   backend:
     name: auth-service
     port: 3000
-
+image:
+  tag: azure-test-9-2b11b1f
+  repository: acropsloratestcin001.azurecr.io/opslora-auth-service
