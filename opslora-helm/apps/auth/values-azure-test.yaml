@@ -1,5 +1,5 @@
 image:
-  tag: "azure-test-8-dd0ef78"
+  tag: "azure-test-9-2b11b1f"
 azureKeyVault:
   enabled: true
   keyVaultName: "kv-opslora-test-cin-001"
