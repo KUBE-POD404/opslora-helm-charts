@@ -110,3 +110,11 @@ probes:
     periodSeconds: 10
     timeoutSeconds: 2
     failureThreshold: 3
+
+networkPolicy:
+  enabled: false
+  # Start permissive to provide an auditable NetworkPolicy object without breaking
+  # Azure Application Gateway ingress, Key Vault CSI, DNS, RabbitMQ, or service-to-service traffic.
+  # Tighten these after a dedicated connectivity test matrix is in place.
+  allowAllIngress: true
+  allowAllEgress: true
