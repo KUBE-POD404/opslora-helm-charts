@@ -25,9 +25,9 @@ on:
         required: false
         type: string
       base_branch:
-        description: "Branch to open the promotion PR against"
+        description: "Branch to open the promotion PR against. Defaults to the current Azure GitOps branch watched by Azure ArgoCD apps."
         required: true
-        default: "main"
+        default: "azure/agic-application-gateway"
         type: string
       values_file:
         description: "Optional override path to prod values file"
