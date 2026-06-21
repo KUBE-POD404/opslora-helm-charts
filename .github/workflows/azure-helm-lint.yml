@@ -1,0 +1,96 @@
+name: Azure Helm Lint
+
+on:
+  pull_request:
+    paths:
+      - "opslora-helm/**"
+      - ".github/workflows/azure-helm-lint.yml"
+  workflow_dispatch:
+
+jobs:
+  lint-render-validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Helm
+        uses: azure/setup-helm@v4
+
+      - name: Install kubeconform
+        shell: bash
+        run: |
+          set -euo pipefail
+          version="0.6.7"
+          curl -sSL "https://github.com/yannh/kubeconform/releases/download/v${version}/kubeconform-linux-amd64.tar.gz" -o /tmp/kubeconform.tar.gz
+          tar -xzf /tmp/kubeconform.tar.gz -C /tmp kubeconform
+          sudo mv /tmp/kubeconform /usr/local/bin/kubeconform
+          kubeconform -v
+
+      - name: Lint, render, and schema-check Azure charts
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          apps=(auth customer frontend inventory invoice notification order payment)
+          envs=(azure-test azure-prod)
+
+          render_and_check() {
+            local release="$1"
+            local chart_path="$2"
+            local output_file="$3"
+            shift 3
+            helm template "$release" "$chart_path" "$@" > "$output_file"
+            kubeconform -strict -summary -ignore-missing-schemas "$output_file"
+          }
+
+          for env in "${envs[@]}"; do
+            echo "=== Validating infra/rabbitmq for ${env} ==="
+            values_file="opslora-helm/infra/rabbitmq/values-${env}.yaml"
+            if [ -f "$values_file" ]; then
+              helm lint opslora-helm/infra/rabbitmq \
+                -f opslora-helm/infra/rabbitmq/values.yaml \
+                -f "$values_file"
+              render_and_check "rabbitmq-${env}" opslora-helm/infra/rabbitmq "/tmp/rabbitmq-${env}.yaml" \
+                -f opslora-helm/infra/rabbitmq/values.yaml \
+                -f "$values_file"
+            else
+              echo "Skipping rabbitmq ${env}; ${values_file} not present"
+            fi
+          done
+
+          for env in "${envs[@]}"; do
+            echo "=== Validating app charts for ${env} ==="
+            for chart in "${apps[@]}"; do
+              chart_path="opslora-helm/apps/${chart}"
+              values_file="${chart_path}/values-${env}.yaml"
+              if [ ! -f "$values_file" ]; then
+                echo "Skipping ${chart} ${env}; ${values_file} not present"
+                continue
+              fi
+
+              echo "--- helm lint ${chart} ${env} ---"
+              helm lint "$chart_path" \
+                -f "${chart_path}/values.yaml" \
+                -f "$values_file"
+
+              echo "--- helm template + kubeconform ${chart} ${env} ---"
+              render_and_check "${chart}-${env}" "$chart_path" "/tmp/${chart}-${env}.yaml" \
+                -f "${chart_path}/values.yaml" \
+                -f "$values_file"
+
+              if [ "$env" = "azure-test" ]; then
+                if [ "$chart" != "notification" ]; then
+                  grep -q "kind: Ingress" "/tmp/${chart}-${env}.yaml"
+                  ! grep -q "kind: HTTPRoute" "/tmp/${chart}-${env}.yaml"
+                fi
+              fi
+
+              echo "--- network policy render check ${chart} ${env} ---"
+              render_and_check "${chart}-${env}-network-policy" "$chart_path" "/tmp/${chart}-${env}-network-policy.yaml" \
+                -f "${chart_path}/values.yaml" \
+                -f "$values_file" \
+                --set networkPolicy.enabled=true
+              grep -q "kind: NetworkPolicy" "/tmp/${chart}-${env}-network-policy.yaml"
+            done
+          done

@@ -1,0 +1,133 @@
+name: Promote Azure Prod Image
+
+on:
+  workflow_dispatch:
+    inputs:
+      service:
+        description: "Service/chart name to promote"
+        required: true
+        type: choice
+        options:
+          - auth
+          - customer
+          - frontend
+          - inventory
+          - invoice
+          - notification
+          - order
+          - payment
+      image_tag:
+        description: "Existing tested ACR image tag to promote to prod, e.g. azure-test-123-abcdef0"
+        required: true
+        type: string
+      image_repository:
+        description: "Optional ACR image repository, e.g. acropsloratestcin001.azurecr.io/opslora-auth-service"
+        required: false
+        type: string
+      base_branch:
+        description: "Branch to open the promotion PR against"
+        required: true
+        default: "main"
+        type: string
+      values_file:
+        description: "Optional override path to prod values file"
+        required: false
+        type: string
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  promote:
+    name: Open prod Helm values promotion PR
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate inputs
+        shell: bash
+        run: |
+          set -euo pipefail
+          case "${{ inputs.service }}" in
+            auth|customer|frontend|inventory|invoice|notification|order|payment) ;;
+            *) echo "Unsupported service: ${{ inputs.service }}" >&2; exit 1 ;;
+          esac
+          if [ -z "${{ inputs.image_tag }}" ]; then
+            echo "image_tag is required" >&2
+            exit 1
+          fi
+
+      - name: Checkout Helm repo
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.base_branch }}
+          fetch-depth: 0
+
+      - name: Install yq
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
+          sudo chmod +x /usr/local/bin/yq
+          yq --version
+
+      - name: Update prod values
+        id: update
+        shell: bash
+        env:
+          SERVICE: ${{ inputs.service }}
+          IMAGE_TAG: ${{ inputs.image_tag }}
+          IMAGE_REPOSITORY: ${{ inputs.image_repository }}
+          VALUES_FILE_OVERRIDE: ${{ inputs.values_file }}
+        run: |
+          set -euo pipefail
+          values_file="${VALUES_FILE_OVERRIDE:-opslora-helm/apps/${SERVICE}/values-azure-prod.yaml}"
+          if [ ! -f "$values_file" ]; then
+            echo "Values file not found: $values_file" >&2
+            echo "Create the prod values file before promoting this service." >&2
+            exit 1
+          fi
+
+          yq -i '.image.tag = strenv(IMAGE_TAG)' "$values_file"
+          if [ -n "$IMAGE_REPOSITORY" ]; then
+            yq -i '.image.repository = strenv(IMAGE_REPOSITORY)' "$values_file"
+          fi
+
+          echo "values_file=$values_file" >> "$GITHUB_OUTPUT"
+          echo "Updated $values_file:"
+          yq '.image' "$values_file"
+
+      - name: Validate rendered chart
+        shell: bash
+        env:
+          SERVICE: ${{ inputs.service }}
+          VALUES_FILE: ${{ steps.update.outputs.values_file }}
+        run: |
+          set -euo pipefail
+          helm lint "opslora-helm/apps/${SERVICE}" \
+            -f "opslora-helm/apps/${SERVICE}/values.yaml" \
+            -f "$VALUES_FILE"
+          helm template "${SERVICE}-azure-prod" "opslora-helm/apps/${SERVICE}" \
+            -f "opslora-helm/apps/${SERVICE}/values.yaml" \
+            -f "$VALUES_FILE" \
+            --set networkPolicy.enabled=true >/tmp/${SERVICE}-azure-prod.yaml
+          grep -q 'kind: NetworkPolicy' /tmp/${SERVICE}-azure-prod.yaml
+
+      - name: Create promotion PR
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ github.token }}
+          branch: prod/promote-${{ inputs.service }}-${{ inputs.image_tag }}
+          base: ${{ inputs.base_branch }}
+          title: "promote(${{ inputs.service }}): ${{ inputs.image_tag }} to Azure prod"
+          commit-message: "promote(${{ inputs.service }}): update Azure prod image to ${{ inputs.image_tag }}"
+          body: |
+            Promote `${{ inputs.service }}` to Azure prod.
+
+            Values file: `${{ steps.update.outputs.values_file }}`
+            Image tag: `${{ inputs.image_tag }}`
+            Image repository: `${{ inputs.image_repository || 'unchanged' }}`
+
+            This PR is intentionally approval-gated. Merge only after confirming the image was produced by the approved build-label test pipeline and validated in Azure test.
+          labels: |
+            prod-promotion
+            approval-required
