@@ -1,7 +1,8 @@
 gateway:
   enabled: false
 image:
-  tag: "azure-test-6-f92d065"
+  tag: "azure-test-6-fee8ba2"
+  repository: acropsloratestcin001.azurecr.io/opslora-frontend-service
 ingress:
   enabled: true
   name: frontend-ingress
