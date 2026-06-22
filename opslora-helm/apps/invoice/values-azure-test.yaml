@@ -1,5 +1,6 @@
 image:
-  tag: "azure-test-6-0a9d25e"
+  tag: "azure-test-4-8eff5ce"
+  repository: acropsloratestcin001.azurecr.io/opslora-invoice-service
 azureKeyVault:
   enabled: true
   keyVaultName: "kv-opslora-test-cin-001"
