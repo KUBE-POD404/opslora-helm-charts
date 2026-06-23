@@ -1,0 +1,10 @@
+apiVersion: v2
+name: lora-ai
+description: Lora AI microservice for Opslora
+type: application
+version: 0.1.0
+appVersion: "0.1.0"
+
+annotations:
+  artifacthub.io/description: "Tenant-aware AI assistant service"
+  artifacthub.io/license: Apache-2.0
