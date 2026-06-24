@@ -1,3 +1,4 @@
 sealedSecret:
   enabled: false
 
+storageClass: default
