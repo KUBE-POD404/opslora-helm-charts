@@ -1,6 +1,6 @@
 image:
   repository: acropsloratestcin001.azurecr.io/opslora-lora-ai-service
-  tag: azure-test-3-1826ef0
+  tag: 5599f96
 replicaCount: 1
 azureKeyVault:
   enabled: true
