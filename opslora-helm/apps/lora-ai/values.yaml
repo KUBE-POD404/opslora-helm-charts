@@ -1,0 +1,102 @@
+azureKeyVault:
+  enabled: false
+  keyVaultName: ""
+  tenantId: ""
+  identityClientId: ""
+  secretProviderClassName: ""
+  secrets: []
+sealedSecret:
+  enabled: true
+
+namespace: opslora-app-ns
+
+name: lora-ai
+fullname: lora-ai-service
+
+labels:
+  app: lora-ai
+  component: backend
+
+selectorLabels:
+  app: lora-ai
+
+serviceAccount:
+  create: true
+  name: lora-ai-sa
+
+replicaCount: 1
+
+image:
+  repository: replace-with-acr-login-server/opslora-lora-ai-service
+  tag: "0.1.0"
+  pullPolicy: IfNotPresent
+
+containerPort: 8080
+
+secretName: lora-ai-secret
+
+service:
+  name: lora-ai-service
+  port: 8080
+  labels:
+    app: lora-ai
+  selectorLabels:
+    app: lora-ai
+
+gateway:
+  enabled: true
+  name: opslora-gateway
+  namespace: opslora-gateway-ns
+
+route:
+  name: lora-ai-route
+  hostnames:
+    - opslora.com
+  path:
+    type: PathPrefix
+    value: /api/v1/ai
+  backend:
+    name: lora-ai-service
+    port: 8080
+
+ingress:
+  enabled: false
+  name: lora-ai-ingress
+  className: ""
+  annotations: {}
+  hosts: []
+  backend:
+    name: lora-ai-service
+    port: 8080
+
+strategy:
+  type: RollingUpdate
+  rollingUpdate:
+    maxUnavailable: 0
+    maxSurge: 1
+
+pod:
+  automountServiceAccountToken: false
+
+affinity:
+  enabled: false
+
+resources: {}
+
+probes:
+  readiness:
+    enabled: true
+    path: /health
+    initialDelaySeconds: 5
+    periodSeconds: 10
+    timeoutSeconds: 3
+    successThreshold: 1
+    failureThreshold: 3
+
+  liveness:
+    enabled: true
+    path: /health
+    initialDelaySeconds: 15
+    periodSeconds: 20
+    timeoutSeconds: 3
+    failureThreshold: 3

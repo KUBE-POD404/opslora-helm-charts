@@ -1,0 +1,46 @@
+fullname: lora-ai-service
+
+replicaCount: 2
+
+image:
+  tag: "azure-prod-placeholder"
+
+serviceAccount:
+  name: lora-ai-sa
+
+route:
+  hostnames:
+    - opslora.com
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
+    ephemeral-storage: 300Mi
+  limits:
+    cpu: 500m
+    memory: 768Mi
+    ephemeral-storage: 750Mi
+
+strategy:
+  rollingUpdate:
+    maxUnavailable: 0
+    maxSurge: 1
+
+pod:
+  automountServiceAccountToken: false
+
+probes:
+  readiness:
+    path: /health
+    failureThreshold: 3
+  liveness:
+    path: /health
+    failureThreshold: 3
+
+affinity:
+  enabled: true
+  podAntiAffinity:
+    type: preferredDuringSchedulingIgnoredDuringExecution
+    weight: 100
+    topologyKey: kubernetes.io/hostname

@@ -1,0 +1,42 @@
+fullname: lora-ai-service-test
+
+replicaCount: 1
+
+image:
+  tag: "azure-test-placeholder"
+
+serviceAccount:
+  name: lora-ai-sa
+
+route:
+  hostnames:
+    - test-opslora.opslora.com
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
+    ephemeral-storage: 300Mi
+  limits:
+    cpu: 500m
+    memory: 768Mi
+    ephemeral-storage: 750Mi
+
+strategy:
+  rollingUpdate:
+    maxUnavailable: 0
+    maxSurge: 1
+
+pod:
+  automountServiceAccountToken: true
+
+probes:
+  readiness:
+    path: /health
+    failureThreshold: 5
+  liveness:
+    path: /health
+    failureThreshold: 5
+
+affinity:
+  enabled: false
