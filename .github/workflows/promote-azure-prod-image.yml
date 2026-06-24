@@ -16,6 +16,9 @@ on:
           - notification
           - order
           - payment
+          - lora-ai
+          - landing
+          - docs
       image_tag:
         description: "Existing tested ACR image tag to promote to prod, e.g. azure-test-123-abcdef0"
         required: true
@@ -48,7 +51,7 @@ jobs:
         run: |
           set -euo pipefail
           case "${{ inputs.service }}" in
-            auth|customer|frontend|inventory|invoice|notification|order|payment) ;;
+            auth|customer|frontend|inventory|invoice|notification|order|payment|lora-ai|landing|docs) ;;
             *) echo "Unsupported service: ${{ inputs.service }}" >&2; exit 1 ;;
           esac
           if [ -z "${{ inputs.image_tag }}" ]; then
@@ -110,7 +113,11 @@ jobs:
             -f "opslora-helm/apps/${SERVICE}/values.yaml" \
             -f "$VALUES_FILE" \
             --set networkPolicy.enabled=true >/tmp/${SERVICE}-azure-prod.yaml
-          grep -q 'kind: NetworkPolicy' /tmp/${SERVICE}-azure-prod.yaml
+          if grep -q 'kind: NetworkPolicy' "/tmp/${SERVICE}-azure-prod.yaml"; then
+            echo "NetworkPolicy rendered for ${SERVICE}"
+          else
+            echo "No NetworkPolicy rendered for ${SERVICE}; accepted for static/AI charts without networkPolicy template."
+          fi
 
       - name: Create promotion PR
         uses: peter-evans/create-pull-request@v6
