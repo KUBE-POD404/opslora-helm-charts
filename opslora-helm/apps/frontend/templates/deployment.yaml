@@ -38,7 +38,7 @@ spec:
               podAffinityTerm:
                 labelSelector:
                   matchLabels:
-                    {{- toYaml .Values.selectorLabels | nindent 16 }}
+{{ toYaml .Values.selectorLabels | nindent 20 }}
                 topologyKey: {{ .Values.affinity.podAntiAffinity.topologyKey }}
       {{- end }}
 
