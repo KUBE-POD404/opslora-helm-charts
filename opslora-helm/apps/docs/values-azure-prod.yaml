@@ -1,10 +1,8 @@
 fullname: docs-site-prod
-
 image:
-  repository: ghcr.io/kube-pod404/opslora-app-docs
-  tag: "latest"
+  repository: acropsloraprodcin001.azurecr.io/opslora-app-docs
+  tag: "v2.0.0"
   pullPolicy: Always
-
 ingress:
   enabled: true
   name: docs-ingress
