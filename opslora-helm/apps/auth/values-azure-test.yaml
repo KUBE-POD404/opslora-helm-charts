@@ -1,25 +1,25 @@
 image:
-  tag: "azure-test-17-b469a49"
+  tag: azure-test-17-b469a49
   repository: acropsloratestcin001.azurecr.io/opslora-auth-service
 azureKeyVault:
   enabled: true
-  keyVaultName: "kv-opslora-test-cin-001"
-  tenantId: "7f02300f-0f1b-4237-b981-c376377f394e"
-  identityClientId: "e83032ad-75e0-4b4a-9495-c206dcbdebeb"
-  secretProviderClassName: "spc-opslora-test-auth"
+  keyVaultName: kv-opslora-test-cin-001
+  tenantId: 7f02300f-0f1b-4237-b981-c376377f394e
+  identityClientId: e83032ad-75e0-4b4a-9495-c206dcbdebeb
+  secretProviderClassName: spc-opslora-test-auth
   secrets:
-    - objectName: "opslora-test-auth-database-url"
-      envName: "DATABASE_URL"
-    - objectName: "opslora-test-auth-jwt-secret-key"
-      envName: "JWT_SECRET_KEY"
-    - objectName: "opslora-test-auth-environment"
-      envName: "ENVIRONMENT"
-    - objectName: "opslora-test-auth-access-token-expire-minutes"
-      envName: "ACCESS_TOKEN_EXPIRE_MINUTES"
-    - objectName: "opslora-test-auth-api-url"
-      envName: "API_URL"
-    - objectName: "opslora-test-auth-rabbitmq-url"
-      envName: "RABBITMQ_URL"
+  - objectName: opslora-test-auth-database-url
+    envName: DATABASE_URL
+  - objectName: opslora-test-auth-jwt-secret-key
+    envName: JWT_SECRET_KEY
+  - objectName: opslora-test-auth-environment
+    envName: ENVIRONMENT
+  - objectName: opslora-test-auth-access-token-expire-minutes
+    envName: ACCESS_TOKEN_EXPIRE_MINUTES
+  - objectName: opslora-test-auth-api-url
+    envName: API_URL
+  - objectName: opslora-test-auth-rabbitmq-url
+    envName: RABBITMQ_URL
 sealedSecret:
   enabled: false
 gateway:
@@ -28,14 +28,16 @@ ingress:
   enabled: true
   name: auth-ingress
   className: azure-application-gateway
-  annotations: {}
+  annotations:
+    appgw.ingress.kubernetes.io/appgw-ssl-certificate: opslora-wildcard-le
+    appgw.ingress.kubernetes.io/ssl-redirect: 'true'
   hosts:
-    - host: app-test.opslora.com
-      paths:
-        - path: /api/v1/auth
-          pathType: Prefix
-        - path: /api/v1/settings
-          pathType: Prefix
+  - host: app-test.opslora.com
+    paths:
+    - path: /api/v1/auth
+      pathType: Prefix
+    - path: /api/v1/settings
+      pathType: Prefix
   backend:
     name: auth-service
     port: 3000
