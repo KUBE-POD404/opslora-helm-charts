@@ -1,9 +1,7 @@
 sealedSecret:
   enabled: false
-
 gateway:
   enabled: false
-
 ingress:
   enabled: true
   name: order-ingress
@@ -17,4 +15,6 @@ ingress:
   backend:
     name: order-service
     port: 3000
-
+image:
+  tag: v2.0.0
+  repository: acropsloraprodcin001.azurecr.io/opslora-order-service
