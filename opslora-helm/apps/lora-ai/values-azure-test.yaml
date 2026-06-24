@@ -1,0 +1,58 @@
+image:
+  repository: "replace-with-azure-test-acr-login-server/opslora-lora-ai-service"
+  tag: "azure-test-placeholder"
+replicaCount: 1
+azureKeyVault:
+  enabled: true
+  keyVaultName: "kv-opslora-test-cin-001"
+  tenantId: "7f02300f-0f1b-4237-b981-c376377f394e"
+  identityClientId: "771a6c04-9dd8-4fa5-98ee-5444933373bd"
+  secretProviderClassName: "spc-opslora-test-lora-ai"
+  secrets:
+    - objectName: "opslora-test-lora-ai-database-url"
+      envName: "DATABASE_URL"
+    - objectName: "opslora-test-lora-ai-environment"
+      envName: "ENVIRONMENT"
+    - objectName: "opslora-test-lora-ai-api-prefix"
+      envName: "API_PREFIX"
+    - objectName: "opslora-test-lora-ai-primary-ai-provider"
+      envName: "PRIMARY_AI_PROVIDER"
+    - objectName: "opslora-test-lora-ai-enable-azure-foundry-fallback"
+      envName: "ENABLE_AZURE_FOUNDRY_FALLBACK"
+    - objectName: "opslora-test-lora-ai-hermes-base-url"
+      envName: "HERMES_BASE_URL"
+    - objectName: "opslora-test-lora-ai-hermes-api-key"
+      envName: "HERMES_API_KEY"
+    - objectName: "opslora-test-lora-ai-hermes-model"
+      envName: "HERMES_MODEL"
+    - objectName: "opslora-test-lora-ai-hermes-timeout-seconds"
+      envName: "HERMES_TIMEOUT_SECONDS"
+    - objectName: "opslora-test-lora-ai-vector-url"
+      envName: "VECTOR_URL"
+    - objectName: "opslora-test-lora-ai-vector-api-key"
+      envName: "VECTOR_API_KEY"
+    - objectName: "opslora-test-lora-ai-azure-foundry-endpoint"
+      envName: "AZURE_AI_FOUNDRY_ENDPOINT"
+    - objectName: "opslora-test-lora-ai-azure-foundry-api-key"
+      envName: "AZURE_AI_FOUNDRY_API_KEY"
+    - objectName: "opslora-test-lora-ai-azure-foundry-deployment"
+      envName: "AZURE_AI_FOUNDRY_DEPLOYMENT"
+    - objectName: "opslora-test-lora-ai-azure-foundry-timeout-seconds"
+      envName: "AZURE_AI_FOUNDRY_TIMEOUT_SECONDS"
+sealedSecret:
+  enabled: false
+gateway:
+  enabled: false
+ingress:
+  enabled: true
+  name: lora-ai-ingress
+  className: azure-application-gateway
+  annotations: {}
+  hosts:
+    - host: app-test.opslora.com
+      paths:
+        - path: /api/v1/ai
+          pathType: Prefix
+  backend:
+    name: lora-ai-service
+    port: 8080
