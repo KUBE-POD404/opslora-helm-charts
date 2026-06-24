@@ -8,13 +8,32 @@ ingress:
   className: azure-application-gateway
   annotations: {}
   hosts:
-    - host: app.opslora.com
-      paths:
-        - path: /api/v1/customers
-          pathType: Prefix
+  - host: app.opslora.com
+    paths:
+    - path: /api/v1/customers
+      pathType: Prefix
   backend:
     name: customer-service
     port: 3000
 image:
   tag: v2.0.0
   repository: acropsloraprodcin001.azurecr.io/opslora-customer-service
+azureKeyVault:
+  enabled: true
+  keyVaultName: kv-opslora-prod-cin-001
+  tenantId: 7f02300f-0f1b-4237-b981-c376377f394e
+  identityClientId: e8b9e1b0-e396-4d81-924f-465bc5a1297b
+  secretProviderClassName: spc-opslora-prod-customer
+  secrets:
+  - objectName: opslora-prod-customer-database-url
+    envName: DATABASE_URL
+  - objectName: opslora-prod-customer-jwt-secret-key
+    envName: JWT_SECRET_KEY
+  - objectName: opslora-prod-customer-environment
+    envName: ENVIRONMENT
+  - objectName: opslora-prod-customer-access-token-expire-minutes
+    envName: ACCESS_TOKEN_EXPIRE_MINUTES
+  - objectName: opslora-prod-customer-api-url
+    envName: API_URL
+  - objectName: opslora-prod-customer-rabbitmq-url
+    envName: RABBITMQ_URL
