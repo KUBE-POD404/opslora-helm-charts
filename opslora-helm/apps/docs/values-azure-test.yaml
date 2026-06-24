@@ -1,10 +1,8 @@
 fullname: docs-site-test
-
 image:
-  repository: ghcr.io/kube-pod404/opslora-app-docs
-  tag: "latest"
+  repository: acropsloratestcin001.azurecr.io/opslora-app-docs
+  tag: "azure-test-9-f88d774"
   pullPolicy: Always
-
 ingress:
   enabled: true
   name: docs-ingress
