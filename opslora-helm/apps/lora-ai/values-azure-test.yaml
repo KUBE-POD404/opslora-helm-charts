@@ -1,6 +1,6 @@
 image:
-  repository: "replace-with-azure-test-acr-login-server/opslora-lora-ai-service"
-  tag: "azure-test-placeholder"
+  repository: "acropsloratestcin001.azurecr.io/opslora-lora-ai-service"
+  tag: "azure-test-2-f219aae"
 replicaCount: 1
 azureKeyVault:
   enabled: true
