@@ -10,6 +10,15 @@ spec:
   template:
     spec:
       restartPolicy: OnFailure
+      {{- if .Values.azureKeyVault.enabled }}
+      volumes:
+        - name: secrets-store-inline
+          csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: {{ .Values.azureKeyVault.secretProviderClassName | default (printf "%s-akv" .Values.secretName) }}
+      {{- end }}
 
       containers:
         - name: migrate
@@ -29,3 +38,9 @@ spec:
             - configMapRef:
                 name: {{ .Values.name }}-config
             {{- end }}
+          {{- if .Values.azureKeyVault.enabled }}
+          volumeMounts:
+            - name: secrets-store-inline
+              mountPath: /mnt/secrets-store
+              readOnly: true
+          {{- end }}
