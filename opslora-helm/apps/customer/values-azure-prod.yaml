@@ -1,9 +1,7 @@
 sealedSecret:
   enabled: false
-
 gateway:
   enabled: false
-
 ingress:
   enabled: true
   name: customer-ingress
@@ -17,4 +15,6 @@ ingress:
   backend:
     name: customer-service
     port: 3000
-
+image:
+  tag: v2.0.0
+  repository: acropsloraprodcin001.azurecr.io/opslora-customer-service
