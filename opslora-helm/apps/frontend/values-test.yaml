@@ -1,27 +1,20 @@
 fullname: frontend-service-test
-
 replicaCount: 1
-
 image:
-  tag: "5d1873d"
-
+  tag: 5d1873d
 route:
   hostnames:
-    - test.opslora.com
-
+  - test.opslora.com
 resources:
   requests:
     cpu: 50m
-    memory: 64Mi
+    memory: 128Mi
   limits:
     cpu: 150m
-    memory: 128Mi
-
+    memory: 512Mi
 pod:
   automountServiceAccountToken: true
-
 affinity:
   enabled: false
-
 autoscaling:
   enabled: false
