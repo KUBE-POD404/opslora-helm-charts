@@ -1,6 +1,6 @@
 image:
-  repository: "replace-with-azure-prod-acr-login-server/opslora-lora-ai-service"
-  tag: "azure-prod-placeholder"
+  repository: "acropsloraprodcin001.azurecr.io/opslora-lora-ai-service"
+  tag: "v2.0.0"
 replicaCount: 2
 azureKeyVault:
   enabled: true
