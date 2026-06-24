@@ -6,7 +6,9 @@ ingress:
   enabled: true
   name: auth-ingress
   className: azure-application-gateway
-  annotations: {}
+  annotations:
+    appgw.ingress.kubernetes.io/appgw-ssl-certificate: opslora-wildcard-le
+    appgw.ingress.kubernetes.io/ssl-redirect: 'true'
   hosts:
   - host: app.opslora.com
     paths:
