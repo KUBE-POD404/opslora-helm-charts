@@ -5,7 +5,7 @@ azureKeyVault:
   enabled: true
   keyVaultName: "kv-opslora-test-cin-001"
   tenantId: "7f02300f-0f1b-4237-b981-c376377f394e"
-  identityClientId: "771a6c04-9dd8-4fa5-98ee-5444933373bd"
+  identityClientId: "e83032ad-75e0-4b4a-9495-c206dcbdebeb"
   secretProviderClassName: "spc-opslora-test-order"
   secrets:
     - objectName: "opslora-test-order-database-url"
