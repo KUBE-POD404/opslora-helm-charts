@@ -2,3 +2,15 @@ sealedSecret:
   enabled: false
 
 storageClass: default
+
+azureKeyVault:
+  enabled: true
+  keyVaultName: "kv-opslora-prod-cin-001"
+  tenantId: "7f02300f-0f1b-4237-b981-c376377f394e"
+  identityClientId: "e8b9e1b0-e396-4d81-924f-465bc5a1297b"
+  secretProviderClassName: "spc-opslora-prod-rabbitmq"
+  secrets:
+    - objectName: "opslora-prod-rabbitmq-default-user"
+      envName: "RABBITMQ_DEFAULT_USER"
+    - objectName: "opslora-prod-rabbitmq-default-pass"
+      envName: "RABBITMQ_DEFAULT_PASS"
