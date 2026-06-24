@@ -38,13 +38,10 @@ autoscaling:
   targetCPUUtilizationPercentage: 80
 
 strategy:
-  type: BlueGreen
-  blueGreen:
-    activeService: payment-service
-    previewService: payment-service-preview
-
-    autoPromotionEnabled: false
-    scaleDownDelaySeconds: 30
+  type: RollingUpdate
+  rollingUpdate:
+    maxUnavailable: 1
+    maxSurge: 1
 
 affinity:
   enabled: true
