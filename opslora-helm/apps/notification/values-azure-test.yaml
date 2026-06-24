@@ -1,5 +1,5 @@
 image:
-  tag: "azure-test-9-5c7f0c7"
+  tag: "azure-test-10-e29d348"
   repository: acropsloratestcin001.azurecr.io/opslora-notification-service
 azureKeyVault:
   enabled: true
