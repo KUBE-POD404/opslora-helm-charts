@@ -1,12 +1,9 @@
 sealedSecret:
   enabled: false
-
 rollout:
   enabled: false
-
 gateway:
   enabled: false
-
 ingress:
   enabled: true
   name: payment-ingress
@@ -20,4 +17,6 @@ ingress:
   backend:
     name: payment-service
     port: 3000
-
+image:
+  tag: v2.0.0
+  repository: acropsloraprodcin001.azurecr.io/opslora-payment-service
