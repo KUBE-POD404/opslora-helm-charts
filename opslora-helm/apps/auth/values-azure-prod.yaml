@@ -8,15 +8,34 @@ ingress:
   className: azure-application-gateway
   annotations: {}
   hosts:
-    - host: app.opslora.com
-      paths:
-        - path: /api/v1/auth
-          pathType: Prefix
-        - path: /api/v1/settings
-          pathType: Prefix
+  - host: app.opslora.com
+    paths:
+    - path: /api/v1/auth
+      pathType: Prefix
+    - path: /api/v1/settings
+      pathType: Prefix
   backend:
     name: auth-service
     port: 3000
 image:
   tag: v2.0.0
   repository: acropsloraprodcin001.azurecr.io/opslora-auth-service
+azureKeyVault:
+  enabled: true
+  keyVaultName: kv-opslora-prod-cin-001
+  tenantId: 7f02300f-0f1b-4237-b981-c376377f394e
+  identityClientId: e8b9e1b0-e396-4d81-924f-465bc5a1297b
+  secretProviderClassName: spc-opslora-prod-auth
+  secrets:
+  - objectName: opslora-prod-auth-database-url
+    envName: DATABASE_URL
+  - objectName: opslora-prod-auth-jwt-secret-key
+    envName: JWT_SECRET_KEY
+  - objectName: opslora-prod-auth-environment
+    envName: ENVIRONMENT
+  - objectName: opslora-prod-auth-access-token-expire-minutes
+    envName: ACCESS_TOKEN_EXPIRE_MINUTES
+  - objectName: opslora-prod-auth-api-url
+    envName: API_URL
+  - objectName: opslora-prod-auth-rabbitmq-url
+    envName: RABBITMQ_URL

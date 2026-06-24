@@ -10,13 +10,32 @@ ingress:
   className: azure-application-gateway
   annotations: {}
   hosts:
-    - host: app.opslora.com
-      paths:
-        - path: /api/v1/payments
-          pathType: Prefix
+  - host: app.opslora.com
+    paths:
+    - path: /api/v1/payments
+      pathType: Prefix
   backend:
     name: payment-service
     port: 3000
 image:
   tag: v2.0.0
   repository: acropsloraprodcin001.azurecr.io/opslora-payment-service
+azureKeyVault:
+  enabled: true
+  keyVaultName: kv-opslora-prod-cin-001
+  tenantId: 7f02300f-0f1b-4237-b981-c376377f394e
+  identityClientId: e8b9e1b0-e396-4d81-924f-465bc5a1297b
+  secretProviderClassName: spc-opslora-prod-payment
+  secrets:
+  - objectName: opslora-prod-payment-database-url
+    envName: DATABASE_URL
+  - objectName: opslora-prod-payment-jwt-secret-key
+    envName: JWT_SECRET_KEY
+  - objectName: opslora-prod-payment-environment
+    envName: ENVIRONMENT
+  - objectName: opslora-prod-payment-access-token-expire-minutes
+    envName: ACCESS_TOKEN_EXPIRE_MINUTES
+  - objectName: opslora-prod-payment-api-url
+    envName: API_URL
+  - objectName: opslora-prod-payment-rabbitmq-url
+    envName: RABBITMQ_URL
