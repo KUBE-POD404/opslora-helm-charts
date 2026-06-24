@@ -1,10 +1,8 @@
 fullname: landing-site-prod
-
 image:
-  repository: ghcr.io/kube-pod404/opslora-landing-site
-  tag: "latest"
+  repository: acropsloraprodcin001.azurecr.io/opslora-landing-site
+  tag: "v2.0.0"
   pullPolicy: Always
-
 ingress:
   enabled: true
   name: landing-ingress
