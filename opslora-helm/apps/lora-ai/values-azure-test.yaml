@@ -2,13 +2,6 @@ image:
   repository: "replace-with-azure-test-acr-login-server/opslora-lora-ai-service"
   tag: "azure-test-placeholder"
 replicaCount: 1
-strategy:
-  type: RollingUpdate
-  rollingUpdate:
-    maxUnavailable: 1
-    maxSurge: 0
-nodeSelector:
-  kubernetes.io/hostname: aks-apps-25043744-vmss000001
 azureKeyVault:
   enabled: true
   keyVaultName: "kv-opslora-test-cin-001"

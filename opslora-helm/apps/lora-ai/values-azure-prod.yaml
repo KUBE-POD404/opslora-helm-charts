@@ -2,13 +2,6 @@ image:
   repository: acropsloraprodcin001.azurecr.io/opslora-lora-ai-service
   tag: v2.0.1
 replicaCount: 2
-strategy:
-  type: RollingUpdate
-  rollingUpdate:
-    maxUnavailable: 1
-    maxSurge: 0
-nodeSelector:
-  kubernetes.io/hostname: aks-apps-22553138-vmss000000
 azureKeyVault:
   enabled: true
   keyVaultName: kv-opslora-prod-cin-001
