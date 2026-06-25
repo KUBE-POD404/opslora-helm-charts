@@ -1,7 +1,7 @@
 gateway:
   enabled: false
 image:
-  tag: azure-test-dark-lora-gitops-c5de6cf
+  tag: azure-test-lora-capabilities-50d8441
   repository: acropsloratestcin001.azurecr.io/opslora-frontend-service
 ingress:
   enabled: true
