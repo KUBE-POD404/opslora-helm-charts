@@ -29,6 +29,10 @@ spec:
     spec:
       automountServiceAccountToken: {{ .Values.pod.automountServiceAccountToken }}
       serviceAccountName: {{ .Values.serviceAccount.name }}
+      {{- if .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml .Values.nodeSelector | nindent 8 }}
+      {{- end }}
 
       {{- if and .Values.affinity.enabled .Values.affinity.podAntiAffinity }}
       affinity:
