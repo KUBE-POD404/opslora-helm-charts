@@ -1,7 +1,7 @@
 gateway:
   enabled: false
 image:
-  tag: azure-test-7-27e8fa3
+  tag: azure-test-ui-refresh-c27bbc4
   repository: acropsloratestcin001.azurecr.io/opslora-frontend-service
 ingress:
   enabled: true
@@ -11,10 +11,10 @@ ingress:
     appgw.ingress.kubernetes.io/appgw-ssl-certificate: opslora-wildcard-le
     appgw.ingress.kubernetes.io/ssl-redirect: 'true'
   hosts:
-  - host: app-test.opslora.com
-    paths:
-    - path: /
-      pathType: Prefix
+    - host: app-test.opslora.com
+      paths:
+        - path: /
+          pathType: Prefix
   backend:
     name: frontend-service
     port: 8000
