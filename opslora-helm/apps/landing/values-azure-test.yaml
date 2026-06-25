@@ -1,7 +1,7 @@
 fullname: landing-site-test
 image:
   repository: acropsloratestcin001.azurecr.io/opslora-landing-site
-  tag: azure-test-8-44daf8c
+  tag: azure-test-9-5fbfa42
   pullPolicy: Always
 ingress:
   enabled: true
@@ -11,10 +11,10 @@ ingress:
     appgw.ingress.kubernetes.io/appgw-ssl-certificate: opslora-wildcard-le
     appgw.ingress.kubernetes.io/ssl-redirect: 'true'
   hosts:
-  - host: test.opslora.com
-    paths:
-    - path: /
-      pathType: Prefix
+    - host: test.opslora.com
+      paths:
+        - path: /
+          pathType: Prefix
   backend:
     name: landing-service
     port: 80
