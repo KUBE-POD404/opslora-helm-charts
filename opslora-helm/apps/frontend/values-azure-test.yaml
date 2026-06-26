@@ -1,7 +1,7 @@
 gateway:
   enabled: false
 image:
-  tag: azure-test-lora-ops-briefing-5da519d
+  tag: azure-test-lora-grounded-6f6db31
   repository: acropsloratestcin001.azurecr.io/opslora-frontend-service
 ingress:
   enabled: true
