@@ -43,6 +43,7 @@ spec:
           command: ["/bin/sh", "-c"]
           args:
             - |
+              set -euo pipefail
               alembic upgrade head
               python -m app.init_db
 
