@@ -25,6 +25,7 @@ sealedSecret:
 config:
   ORDER_SERVICE_URL: http://order-service:3000
   AUTH_SERVICE_URL: http://auth-service:3000
+  PAYMENT_SERVICE_URL: http://payment-service:3000
 gateway:
   enabled: false
 ingress:
