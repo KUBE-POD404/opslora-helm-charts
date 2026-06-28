@@ -1,5 +1,5 @@
 image:
-  tag: azure-test-5-4461685
+  tag: azure-test-6-a1c6d6e
   repository: acropsloratestcin001.azurecr.io/opslora-invoice-service
 azureKeyVault:
   enabled: true
@@ -8,18 +8,18 @@ azureKeyVault:
   identityClientId: e83032ad-75e0-4b4a-9495-c206dcbdebeb
   secretProviderClassName: spc-opslora-test-invoice
   secrets:
-  - objectName: opslora-test-invoice-database-url
-    envName: DATABASE_URL
-  - objectName: opslora-test-invoice-jwt-secret-key
-    envName: JWT_SECRET_KEY
-  - objectName: opslora-test-invoice-environment
-    envName: ENVIRONMENT
-  - objectName: opslora-test-invoice-access-token-expire-minutes
-    envName: ACCESS_TOKEN_EXPIRE_MINUTES
-  - objectName: opslora-test-invoice-api-url
-    envName: API_URL
-  - objectName: opslora-test-invoice-rabbitmq-url
-    envName: RABBITMQ_URL
+    - objectName: opslora-test-invoice-database-url
+      envName: DATABASE_URL
+    - objectName: opslora-test-invoice-jwt-secret-key
+      envName: JWT_SECRET_KEY
+    - objectName: opslora-test-invoice-environment
+      envName: ENVIRONMENT
+    - objectName: opslora-test-invoice-access-token-expire-minutes
+      envName: ACCESS_TOKEN_EXPIRE_MINUTES
+    - objectName: opslora-test-invoice-api-url
+      envName: API_URL
+    - objectName: opslora-test-invoice-rabbitmq-url
+      envName: RABBITMQ_URL
 sealedSecret:
   enabled: false
 config:
@@ -35,10 +35,10 @@ ingress:
     appgw.ingress.kubernetes.io/appgw-ssl-certificate: opslora-wildcard-le
     appgw.ingress.kubernetes.io/ssl-redirect: 'true'
   hosts:
-  - host: app-test.opslora.com
-    paths:
-    - path: /api/v1/invoices
-      pathType: Prefix
+    - host: app-test.opslora.com
+      paths:
+        - path: /api/v1/invoices
+          pathType: Prefix
   backend:
     name: invoice-service
     port: 3000
