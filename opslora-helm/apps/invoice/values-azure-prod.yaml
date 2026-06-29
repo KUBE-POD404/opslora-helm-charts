@@ -18,7 +18,7 @@ ingress:
     name: invoice-service
     port: 3000
 image:
-  tag: v2.0.0
+  tag: v2.1.0
   repository: acropsloraprodcin001.azurecr.io/opslora-invoice-service
 azureKeyVault:
   enabled: true
@@ -39,3 +39,7 @@ azureKeyVault:
     envName: API_URL
   - objectName: opslora-prod-invoice-rabbitmq-url
     envName: RABBITMQ_URL
+config:
+  ORDER_SERVICE_URL: http://order-service:3000
+  AUTH_SERVICE_URL: http://auth-service:3000
+  PAYMENT_SERVICE_URL: http://payment-service:3000

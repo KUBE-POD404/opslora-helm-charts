@@ -1,7 +1,7 @@
 fullname: landing-site-prod
 image:
   repository: acropsloraprodcin001.azurecr.io/opslora-landing-site
-  tag: v2.0.0
+  tag: v2.1.0
   pullPolicy: Always
 ingress:
   enabled: true

@@ -16,5 +16,5 @@ ingress:
     name: frontend-service
     port: 8000
 image:
-  tag: v2.0.0
+  tag: v2.1.0
   repository: acropsloraprodcin001.azurecr.io/opslora-frontend-service
