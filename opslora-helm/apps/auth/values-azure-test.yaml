@@ -1,5 +1,5 @@
 image:
-  tag: azure-test-21-0d3ac3c
+  tag: azure-test-23-ed677ca
   repository: acropsloratestcin001.azurecr.io/opslora-auth-service
 azureKeyVault:
   enabled: true
