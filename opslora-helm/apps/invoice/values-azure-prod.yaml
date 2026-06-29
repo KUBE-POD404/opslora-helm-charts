@@ -10,10 +10,10 @@ ingress:
     appgw.ingress.kubernetes.io/appgw-ssl-certificate: opslora-wildcard-le
     appgw.ingress.kubernetes.io/ssl-redirect: 'true'
   hosts:
-  - host: app.opslora.com
-    paths:
-    - path: /api/v1/invoices
-      pathType: Prefix
+    - host: app.opslora.com
+      paths:
+        - path: /api/v1/invoices
+          pathType: Prefix
   backend:
     name: invoice-service
     port: 3000
@@ -27,18 +27,18 @@ azureKeyVault:
   identityClientId: e8b9e1b0-e396-4d81-924f-465bc5a1297b
   secretProviderClassName: spc-opslora-prod-invoice
   secrets:
-  - objectName: opslora-prod-invoice-database-url
-    envName: DATABASE_URL
-  - objectName: opslora-prod-invoice-jwt-secret-key
-    envName: JWT_SECRET_KEY
-  - objectName: opslora-prod-invoice-environment
-    envName: ENVIRONMENT
-  - objectName: opslora-prod-invoice-access-token-expire-minutes
-    envName: ACCESS_TOKEN_EXPIRE_MINUTES
-  - objectName: opslora-prod-invoice-api-url
-    envName: API_URL
-  - objectName: opslora-prod-invoice-rabbitmq-url
-    envName: RABBITMQ_URL
+    - objectName: opslora-prod-invoice-database-url
+      envName: DATABASE_URL
+    - objectName: opslora-prod-invoice-jwt-secret-key
+      envName: JWT_SECRET_KEY
+    - objectName: opslora-prod-invoice-environment
+      envName: ENVIRONMENT
+    - objectName: opslora-prod-invoice-access-token-expire-minutes
+      envName: ACCESS_TOKEN_EXPIRE_MINUTES
+    - objectName: opslora-prod-invoice-api-url
+      envName: API_URL
+    - objectName: opslora-prod-invoice-rabbitmq-url
+      envName: RABBITMQ_URL
 config:
   ORDER_SERVICE_URL: http://order-service:3000
   AUTH_SERVICE_URL: http://auth-service:3000
