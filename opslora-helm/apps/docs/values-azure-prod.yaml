@@ -1,7 +1,7 @@
 fullname: docs-site-prod
 image:
   repository: acropsloraprodcin001.azurecr.io/opslora-app-docs
-  tag: v2.1.0
+  tag: v2.1.1
   pullPolicy: Always
 ingress:
   enabled: true
@@ -11,10 +11,10 @@ ingress:
     appgw.ingress.kubernetes.io/appgw-ssl-certificate: opslora-wildcard-le
     appgw.ingress.kubernetes.io/ssl-redirect: 'true'
   hosts:
-  - host: docs.opslora.com
-    paths:
-    - path: /
-      pathType: Prefix
+    - host: docs.opslora.com
+      paths:
+        - path: /
+          pathType: Prefix
   backend:
     name: docs-service
     port: 80
