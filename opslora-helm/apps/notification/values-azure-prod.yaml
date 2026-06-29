@@ -10,19 +10,19 @@ azureKeyVault:
   identityClientId: e8b9e1b0-e396-4d81-924f-465bc5a1297b
   secretProviderClassName: spc-opslora-prod-notification
   secrets:
-  - objectName: opslora-prod-notification-rabbitmq-url
-    envName: RABBITMQ_URL
-  - objectName: opslora-prod-notification-smtp-host
-    envName: SMTP_HOST
-  - objectName: opslora-prod-notification-smtp-port
-    envName: SMTP_PORT
-  - objectName: opslora-prod-notification-smtp-user
-    envName: SMTP_USER
-  - objectName: opslora-prod-notification-smtp-pass
-    envName: SMTP_PASS
-  - objectName: opslora-prod-notification-smtp-starttls
-    envName: SMTP_STARTTLS
-  - objectName: opslora-prod-notification-from-email
-    envName: FROM_EMAIL
-  - objectName: opslora-prod-notification-from-name
-    envName: FROM_NAME
+    - objectName: opslora-prod-notification-rabbitmq-url
+      envName: RABBITMQ_URL
+    - objectName: opslora-prod-notification-smtp-host
+      envName: SMTP_HOST
+    - objectName: opslora-prod-notification-smtp-port
+      envName: SMTP_PORT
+    - objectName: opslora-prod-notification-smtp-user
+      envName: SMTP_USER
+    - objectName: opslora-prod-notification-smtp-pass
+      envName: SMTP_PASS
+    - objectName: opslora-prod-notification-smtp-starttls
+      envName: SMTP_STARTTLS
+    - objectName: opslora-prod-notification-from-email
+      envName: FROM_EMAIL
+    - objectName: opslora-prod-notification-from-name
+      envName: FROM_NAME
