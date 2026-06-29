@@ -10,10 +10,10 @@ ingress:
     appgw.ingress.kubernetes.io/appgw-ssl-certificate: opslora-wildcard-le
     appgw.ingress.kubernetes.io/ssl-redirect: 'true'
   hosts:
-  - host: app.opslora.com
-    paths:
-    - path: /api/v1/inventory
-      pathType: Prefix
+    - host: app.opslora.com
+      paths:
+        - path: /api/v1/inventory
+          pathType: Prefix
   backend:
     name: inventory-service
     port: 3000
@@ -27,15 +27,15 @@ azureKeyVault:
   identityClientId: e8b9e1b0-e396-4d81-924f-465bc5a1297b
   secretProviderClassName: spc-opslora-prod-inventory
   secrets:
-  - objectName: opslora-prod-inventory-database-url
-    envName: DATABASE_URL
-  - objectName: opslora-prod-inventory-jwt-secret-key
-    envName: JWT_SECRET_KEY
-  - objectName: opslora-prod-inventory-environment
-    envName: ENVIRONMENT
-  - objectName: opslora-prod-inventory-access-token-expire-minutes
-    envName: ACCESS_TOKEN_EXPIRE_MINUTES
-  - objectName: opslora-prod-inventory-api-url
-    envName: API_URL
-  - objectName: opslora-prod-inventory-rabbitmq-url
-    envName: RABBITMQ_URL
+    - objectName: opslora-prod-inventory-database-url
+      envName: DATABASE_URL
+    - objectName: opslora-prod-inventory-jwt-secret-key
+      envName: JWT_SECRET_KEY
+    - objectName: opslora-prod-inventory-environment
+      envName: ENVIRONMENT
+    - objectName: opslora-prod-inventory-access-token-expire-minutes
+      envName: ACCESS_TOKEN_EXPIRE_MINUTES
+    - objectName: opslora-prod-inventory-api-url
+      envName: API_URL
+    - objectName: opslora-prod-inventory-rabbitmq-url
+      envName: RABBITMQ_URL
