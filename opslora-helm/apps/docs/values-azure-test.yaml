@@ -1,7 +1,7 @@
 fullname: docs-site-test
 image:
   repository: acropsloratestcin001.azurecr.io/opslora-app-docs
-  tag: azure-test-11-6edaa05
+  tag: azure-test-12-29595c6
   pullPolicy: Always
 ingress:
   enabled: true
