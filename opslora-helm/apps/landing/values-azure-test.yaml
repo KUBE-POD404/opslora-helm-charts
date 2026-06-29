@@ -1,7 +1,7 @@
 fullname: landing-site-test
 image:
   repository: acropsloratestcin001.azurecr.io/opslora-landing-site
-  tag: azure-test-9-5fbfa42
+  tag: azure-test-10-4e57a77
   pullPolicy: Always
 ingress:
   enabled: true
