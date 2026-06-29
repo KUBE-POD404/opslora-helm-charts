@@ -10,10 +10,10 @@ ingress:
     appgw.ingress.kubernetes.io/appgw-ssl-certificate: opslora-wildcard-le
     appgw.ingress.kubernetes.io/ssl-redirect: 'true'
   hosts:
-  - host: app.opslora.com
-    paths:
-    - path: /api/v1/customers
-      pathType: Prefix
+    - host: app.opslora.com
+      paths:
+        - path: /api/v1/customers
+          pathType: Prefix
   backend:
     name: customer-service
     port: 3000
@@ -27,15 +27,15 @@ azureKeyVault:
   identityClientId: e8b9e1b0-e396-4d81-924f-465bc5a1297b
   secretProviderClassName: spc-opslora-prod-customer
   secrets:
-  - objectName: opslora-prod-customer-database-url
-    envName: DATABASE_URL
-  - objectName: opslora-prod-customer-jwt-secret-key
-    envName: JWT_SECRET_KEY
-  - objectName: opslora-prod-customer-environment
-    envName: ENVIRONMENT
-  - objectName: opslora-prod-customer-access-token-expire-minutes
-    envName: ACCESS_TOKEN_EXPIRE_MINUTES
-  - objectName: opslora-prod-customer-api-url
-    envName: API_URL
-  - objectName: opslora-prod-customer-rabbitmq-url
-    envName: RABBITMQ_URL
+    - objectName: opslora-prod-customer-database-url
+      envName: DATABASE_URL
+    - objectName: opslora-prod-customer-jwt-secret-key
+      envName: JWT_SECRET_KEY
+    - objectName: opslora-prod-customer-environment
+      envName: ENVIRONMENT
+    - objectName: opslora-prod-customer-access-token-expire-minutes
+      envName: ACCESS_TOKEN_EXPIRE_MINUTES
+    - objectName: opslora-prod-customer-api-url
+      envName: API_URL
+    - objectName: opslora-prod-customer-rabbitmq-url
+      envName: RABBITMQ_URL
